@@ -8,28 +8,89 @@
 app5.js | プログラム本体
 public/janken.html | じゃんけんの開始画面
 views/janken.ejs | じゃんけんのテンプレートファイル
-```javascript
-console.log( 'Hello' );
-```
+public/guess.html | 数字当てゲームの開始画面
+views/guess.ejs | 数字当てゲームのテンプレートファイル
+public/mbti.html | MBTI診断の開始画面
+views/mbti.ejs | MBTI診断のテンプレートファイル
+
+## 1.じゃんけん
 1. app5.js を起動する
 1. Webブラウザでlocalhost:8080/public/janken.htmlにアクセスする
 1. 自分の手を入力する
 ```mermaid
 flowchart TD;
-開始 --> 終了;
+
+start["開始"];
+hand["自分の手を入力"]
+end1["終了"]
+if{"コンピューターの手と同じか"}
+win["勝ち"]
+lose["負け"]
+drow["引き分け"]
+han{"コンピューターの手に勝ったか"}
+
+
+
+start --> hand
+hand --> if
+if -->|yes| drow
+if -->|no| han
+han -->|yes| win
+han --> |no| lose
+drow --> end1
+win --> end1
+lose --> end1
 ```
+
+## 2.数字当てゲーム
+1. app5.js を起動する
+1. Webブラウザでlocalhost:8080/public/guess.htmlにアクセスする
+1. 自分の数を入力する
 ```mermaid
 flowchart TD;
 
 start["開始"];
+number["自分の数を入力"]
 end1["終了"]
-if{"条件に合うか"}
+if{"コンピューターの数と同じか"}
 win["勝ち"]
-loose["負け"]
+lose["負け"]
 
-start --> if
+
+
+start --> number
+number --> if
 if -->|yes| win
+if -->|no| lose
 win --> end1
-if -->|no| loose
-loose --> end1
+lose --> end1
+```
+
+## 3.MBTI診断
+1. app5.js を起動する
+1. Webブラウザでlocalhost:8080/public/mbti.htmlにアクセスする
+1. 4つの質問に答える．
+```mermaid
+flowchart TD;
+
+
+    A[開始] --> B[ユーザーが質問に回答]
+    B --> C{ユーザーの回答を取得}
+    C --> D[１つ目の質問: E or I]
+    C --> E[2つ目の質問: S or N]
+    C --> F[3つ目の質問: T or F]
+    C --> G[4つ目の質問: J or P]
+    
+    D --> H[タイプを決定]
+    E --> H
+    F --> H
+    G --> H
+    
+    H --> I{16通りのタイプ判定}
+    
+    
+    I --> Z[結果ページを表示]
+    
+    Z --> AA[終了]
+
 ```

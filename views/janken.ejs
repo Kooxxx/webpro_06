@@ -10,7 +10,7 @@
     <p>判定：<%= judgement %></p>
     <p>現在<%= total %>試合中<%= win %>勝しています．</p>
     <hr>
-    <form action="/janken">
+    <form action="/janken" method="get">
         <input type="text" name="hand" required>
         <label for="hand">次は何を出す？</label>
         <input type="hidden" name="win" value="<%= win %>">

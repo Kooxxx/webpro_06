@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>数字当てゲーム</title>
+</head>
+<body>
+    <form action="/guess" method="get">
+        <input type="text" name="number" required>
+        <label for="number">何を出す？</label>
+        <input type="submit" values="当ててみる">
+        <input type="hidden" name="win" value="0">
+        <input type="hidden" name="total" value="0">
+    </form>
+</body>
+</html>

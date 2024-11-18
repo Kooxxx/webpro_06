@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字当てゲーム</title>
+</head>
+<body>
+    <h1>数字当てゲーム</h1>
+    <p>ランダムに生成された数字：<%= randomNumber %></p>
+    <p>結果：<%= result %></p>
+    <p>現在のスコア: <%= win %>勝 / <%= total %>試合</p>
+
+    <form action="/guess" method="get">
+        <label for="number">0から9の数字を入力:</label>
+        <input type="text" name="number" required>
+        <input type="hidden" name="win" value="<%= win %>"> <!-- 勝ち数を隠しフィールドとして渡す -->
+        <input type="hidden" name="total" value="<%= total %>"> <!-- 試合数を隠しフィールドとして渡す -->
+        <button type="submit">次の試合</button>
+    </form>
+</body>
+</html>
