@@ -72,25 +72,55 @@ lose --> end1
 1. 4つの質問に答える．
 ```mermaid
 flowchart TD;
-
-
     A[開始] --> B[ユーザーが質問に回答]
     B --> C{ユーザーの回答を取得}
-    C --> D[１つ目の質問: E or I]
-    C --> E[2つ目の質問: S or N]
-    C --> F[3つ目の質問: T or F]
-    C --> G[4つ目の質問: J or P]
+    C --> D[q1: E or I]
+    C --> E[q2: S or N]
+    C --> F[q3: T or F]
+    C --> G[q4: J or P]
     
     D --> H[タイプを決定]
     E --> H
     F --> H
     G --> H
     
-    H --> I{16通りのタイプ判定}
+    H --> I{タイプ判定}
     
+    I -->|INTJ| J[INTJ]
+    I -->|INTP| K[INTP]
+    I -->|ENTJ| L[ENTJ]
+    I -->|ENTP| M[ENTP]
+    I -->|INFJ| N[INFJ]
+    I -->|INFP| O[INFP]
+    I -->|ENFJ| P[ENFJ]
+    I -->|ENFP| Q[ENFP]
+    I -->|ISTJ| R[ISTJ]
+    I -->|ISFJ| S[ISFJ]
+    I -->|ESTJ| T[ESTJ]
+    I -->|ESFJ| U[ESFJ]
+    I -->|ISTP| V[ISTP]
+    I -->|ISFP| W[ISFP]
+    I -->|ESTP| X[ESTP]
+    I -->|ESFP| Y[ESFP]
     
-    I --> Z[結果ページを表示]
+    J --> Z[結果ページを表示]
+    K --> Z
+    L --> Z
+    M --> Z
+    N --> Z
+    O --> Z
+    P --> Z
+    Q --> Z
+    R --> Z
+    S --> Z
+    T --> Z
+    U --> Z
+    V --> Z
+    W --> Z
+    X --> Z
+    Y --> Z
     
     Z --> AA[終了]
+
 
 ```
