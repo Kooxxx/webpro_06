@@ -142,30 +142,30 @@ sequenceDiagram
     Browser->>Client: 起動
 
     
-    WebServer->>Server: Post (投稿の追加: 名前とメッセージ)
-    Server-->>WebServer: 全投稿数を返す
+    Client->>Server: Post (投稿の追加: 名前とメッセージ)
+    Server-->>Client: 全投稿数を返す
     
 
     
-    WebServer->>Server: Check (投稿のチェック)
-    Server-->>WebServer: 現在の投稿数を返す
+    Client->>Server: Check (投稿のチェック)
+    Server-->>Client: 現在の投稿数を返す
    
 
    
-    WebServer->>Server: Read (投稿の取得)
-    Server-->>WebServer: 掲示データ
+    Client->>Server: Read (投稿の取得)
+    Server-->>Client: 掲示データ
     
     
-    WebServer->>Server: Like (いいねの追加: 投稿ID)
-    Server-->>WebServer: 更新されたいいね数を返す
+    Client->>Server: Like (いいねの追加: 投稿ID)
+    Server-->>Client: 更新されたいいね数を返す
     
     
-    WebServer->>Server: Edit (投稿の編集: 投稿IDと新しいメッセージ)
-    Server-->>WebServer: 編集後の投稿を返す
+    Client->>Server: Edit (投稿の編集: 投稿IDと新しいメッセージ)
+    Server-->>Client: 編集後の投稿を返す
    
 
    
-    WebServer->>Server: Delete (投稿の削除: 投稿ID)
-    Server-->>WebServer: 削除完了を返す
+    Client->>Server: Delete (投稿の削除: 投稿ID)
+    Server-->>Client: 削除完了を返す
 ```
 
