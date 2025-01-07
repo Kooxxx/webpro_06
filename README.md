@@ -124,3 +124,48 @@ flowchart TD;
 
 
 ```
+## 4.掲示板
+1. app8.js を起動する
+1. Webブラウザでlocalhost:8080/public/bbs.htmlにアクセスする
+1. 名前とメッセージを入力する
+1. 投稿チェックボタンを押す
+1. いいね，投稿編集，投稿削除ができる
+```mermaid
+sequenceDiagram
+    participant Browser as Webブラウザ
+    participant WebServer as Webサーバ
+    participant Client as bbsクライアント
+    participant Server as bbsサーバ
+
+    Browser->>WebServer: GET (ページリクエスト)
+    WebServer-->>Browser: HTML, JS, CSS
+    Browser->>Client: 起動
+
+    
+    WebServer->>Server: Post (投稿の追加: 名前とメッセージ)
+    Server-->>WebServer: 全投稿数を返す
+    
+
+    
+    WebServer->>Server: Check (投稿のチェック)
+    Server-->>WebServer: 現在の投稿数を返す
+   
+
+   
+    WebServer->>Server: Read (投稿の取得)
+    Server-->>WebServer: 掲示データ
+    
+    
+    WebServer->>Server: Like (いいねの追加: 投稿ID)
+    Server-->>WebServer: 更新されたいいね数を返す
+    
+    
+    WebServer->>Server: Edit (投稿の編集: 投稿IDと新しいメッセージ)
+    Server-->>WebServer: 編集後の投稿を返す
+   
+
+   
+    WebServer->>Server: Delete (投稿の削除: 投稿ID)
+    Server-->>WebServer: 削除完了を返す
+```
+
