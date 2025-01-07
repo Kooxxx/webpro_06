@@ -1,30 +1,28 @@
 "use strict";
 
-let number=0;
+let number = 0;  
 const bbs = document.querySelector('#bbs');
-document.querySelector('#post').addEventListener('click', () => {
-    const name = document.querySelector('#name').value;
-    const message = document.querySelector('#message').value;
+const posts = document.querySelector('#posts');
 
-    const params = {  // URL Encode
-        method: "POST",
-        body:  'name='+name+'&message='+message,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    };
-    console.log( params );
-    const url = "/post";
-    fetch( url, params )
-    .then( (response) => {
-        if( !response.ok ) {
-            throw new Error('Error');
-        }
-        return response.json();
-    })
-    .then( (response) => {
-        console.log( response );
-        document.querySelector('#message').value = "";
+// 投稿を送信する
+document.querySelector('#post').addEventListener('click', () => {
+  const name = document.querySelector('#name').value;
+  const message = document.querySelector('#message').value;
+
+  const params = {   // URL Encode
+    method: "POST",
+    body: 'name=' + name + '&message=' + message,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  };
+
+  const url = "/post";
+  fetch(url, params)
+    .then(response => response.json())
+    .then(data => {
+      document.querySelector('#message').value = "";  // メッセージ入力欄をリセット
+      loadPosts();  // 投稿後に全投稿を再取得
     });
 });
 
@@ -77,12 +75,74 @@ document.querySelector('#check').addEventListener('click', () => {
                     let mes_area = document.createElement('span');
                     mes_area.className = 'mes';
                     mes_area.innerText = mes.message;
-                    cover.appendChild( name_area );
-                    cover.appendChild( mes_area );
 
-                    bbs.appendChild( cover );
+              // いいねボタン
+              const like_button = document.createElement('button');
+              like_button.innerText = "いいね (" + mes.likes + ")";
+              like_button.addEventListener('click', () => {
+                const params = {
+                  method: "POST",
+                  body: 'id=' + mes.id,
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                  }
+                };
+                fetch('/like', params)
+                  .then(response => response.json())
+                  .then(data => {
+                    like_button.innerText = "いいね (" + data.likes + ")";
+                  });
+              });
+
+              // 編集ボタン
+              const edit_button = document.createElement('button');
+              edit_button.innerText = "編集";
+              edit_button.addEventListener('click', () => {
+                const newMessage = prompt("新しいメッセージ:", mes.message);
+                if (newMessage) {
+                  const params = {
+                    method: "POST",
+                    body: 'id=' + mes.id + '&message=' + newMessage,
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                  };
+                  fetch('/edit', params)
+                    .then(response => response.json())
+                    .then(data => {
+                      mes_area.innerText = data.updatedPost.message;
+                    });
                 }
-            })
-        }
+              });
+
+              // 削除ボタン
+              const delete_button = document.createElement('button');
+              delete_button.innerText = "削除";
+              delete_button.addEventListener('click', () => {
+                const params = {
+                  method: "POST",
+                  body: 'id=' + mes.id,
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                  }
+                };
+                fetch('/delete', params)
+                  .then(response => response.json())
+                  .then(() => {
+                    cover.remove();  // 投稿を削除したら表示から削除
+                  });
+              });
+
+              cover.appendChild(name_area);
+              cover.appendChild(mes_area);
+              cover.appendChild(like_button);
+              cover.appendChild(edit_button);
+              cover.appendChild(delete_button);
+
+              posts.appendChild(cover);
+            }
+          });
+      }
     });
-});
+})
+

@@ -4,9 +4,11 @@ const app = express();
 
 let bbs = [];  // 本来はDBMSを使用するが，今回はこの変数にデータを蓄える
 
+
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
+
 
 app.get("/hello1", (req, res) => {
   const message1 = "Hello world";
@@ -82,52 +84,97 @@ app.post("/add", (req, res) => {
   res.json( {answer: num1+num2} );
 });
 
+
 // これより下はBBS関係
 app.post("/check", (req, res) => {
   // 本来はここでDBMSに問い合わせる
-  res.json( {number: bbs.length });
+  res.json({ number: bbs.length });  
 });
 
 app.post("/read", (req, res) => {
   // 本来はここでDBMSに問い合わせる
-  const start = Number( req.body.start );
-  console.log( "read -> " + start );
-  if( start==0 ) res.json( {messages: bbs });
-  else res.json( {messages: bbs.slice( start )});
+  const start = Number(req.body.start);
+  if (start === 0) {
+    res.json({ messages: bbs });
+  } else {
+    res.json({ messages: bbs.slice(start) });
+  }
 });
 
 app.post("/post", (req, res) => {
   const name = req.body.name;
   const message = req.body.message;
-  console.log( [name, message] );
-  // 本来はここでDBMSに保存する
-  bbs.push( { name: name, message: message } );
-  res.json( {number: bbs.length } );
+  const newPost = {
+    id: bbs.length + 1,  // 投稿IDを一意に設定
+    name: name,
+    message: message,
+    likes: 0  // いいね数の初期化
+  };
+  bbs.push(newPost);
+  res.json({ number: bbs.length });
+});
+
+// いいねを追加
+app.post("/like", (req, res) => {
+  const postId = Number(req.body.id);
+  const post = bbs.find(p => p.id === postId);
+  if (post) {
+    post.likes += 1;
+    res.json({ likes: post.likes });
+  } else {
+    res.status(404).json({ error: "Post not found" });
+  }
+});
+
+// 投稿を編集
+app.post("/edit", (req, res) => {
+  const postId = Number(req.body.id);
+  const newMessage = req.body.message;
+  const post = bbs.find(p => p.id === postId);
+  if (post) {
+    post.message = newMessage;
+    res.json({ updatedPost: post });
+  } else {
+    res.status(404).json({ error: "Post not found" });
+  }
+});
+
+// 投稿を削除
+app.post("/delete", (req, res) => {
+  const postId = Number(req.body.id);
+  const index = bbs.findIndex(p => p.id === postId);
+  if (index !== -1) {
+    bbs.splice(index, 1);
+    res.json({ message: "Post deleted" });
+  } else {
+    res.status(404).json({ error: "Post not found" });
+  }
 });
 
 app.get("/bbs", (req,res) => {
-    console.log("GET /BBS");
-    res.json( {test: "GET /BBS" });
+  console.log("GET /BBS");
+  res.json( {test: "GET /BBS" });
 });
 
 app.post("/bbs", (req,res) => {
-    console.log("POST /BBS");
-    res.json( {test: "POST /BBS"});
+  console.log("POST /BBS");
+  res.json( {test: "POST /BBS"});
 })
 
 app.get("/bbs/:id", (req,res) => {
-    console.log( "GET /BBS/" + req.params.id );
-    res.json( {test: "GET /BBS/" + req.params.id });
+  console.log( "GET /BBS/" + req.params.id );
+  res.json( {test: "GET /BBS/" + req.params.id });
 });
 
 app.put("/bbs/:id", (req,res) => {
-    console.log( "PUT /BBS/" + req.params.id );
-    res.json( {test: "PUT /BBS/" + req.params.id });
+  console.log( "PUT /BBS/" + req.params.id );
+  res.json( {test: "PUT /BBS/" + req.params.id });
 });
 
 app.delete("/bbs/:id", (req,res) => {
-    console.log( "DELETE /BBS/" + req.params.id );
-    res.json( {test: "DELETE /BBS/" + req.params.id });
+  console.log( "DELETE /BBS/" + req.params.id );
+  res.json( {test: "DELETE /BBS/" + req.params.id });
 });
+
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));

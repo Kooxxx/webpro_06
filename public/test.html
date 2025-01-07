@@ -1,12 +1,53 @@
-<!Doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <title>static page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>掲示板</title>
+    <script src="./bbs.js" defer></script>
+    <link rel="stylesheet" href="./bbs.css">
 </head>
 <body>
-  <h2>Message</h2>
-  <p>Static</p>
+    <div id="bbs"></div>
+    
+    <!-- 投稿フォーム -->
+    <div>
+        <label for="name">名前：</label>
+        <input type="text" id="name"> <!-- 名前の入力フォーム -->
+        <label for="message">メッセージ：</label>
+        <input type="text" id="message"> <!-- メッセージの入力フォーム -->
+        <button type="button" id="post">送信</button> <!-- 送信ボタン -->
+    </div>
+
+    <!-- 投稿チェックボタン -->
+    <div id="check">
+        <button type="button" id="check">投稿チェック</button>
+    </div>
+
+    <!-- 投稿一覧の表示 -->
+    <div id="post-list"></div>
+
+    <!-- 投稿編集フォーム -->
+    <div>
+        <label for="edit_post_id">投稿編集：</label>
+        <input type="text" id="edit_post_id" placeholder="投稿ID">
+        <input type="text" id="edit_post_message" placeholder="新しいメッセージ">
+        <button type="button" id="edit_post_button">編集</button>
+    </div>
+
+    <!-- 投稿削除フォーム -->
+    <div>
+        <label for="delete_post_id">投稿削除：</label>
+        <input type="text" id="delete_post_id" placeholder="削除する投稿ID">
+        <button type="button" id="delete_post_button">削除</button>
+    </div>
+
+    <!-- いいねボタン -->
+    <div>
+        <label for="like_post_id">いいね：</label>
+        <input type="text" id="like_post_id" placeholder="投稿ID">
+        <button type="button" id="like_post_button">いいね</button>
+    </div>
+
 </body>
 </html>
-
